@@ -11,9 +11,23 @@ class TechList extends Component {
   state = {
     newTech: '',
     newTechPlaceholder: 'Digite uma nova tech',
-    techs: ['Node.js', 'ReactJs', 'ReactNative'],
+    techs: [],
   };
 
+  //LifeCycle
+  componentDidMount() {
+    const techs = localStorage.getItem('techs');
+
+    this.state.techs = techs && this.setState({ techs: JSON.parse(techs) });
+  }
+
+  //this.props, this.state
+  componentDidUpdate(_, prevState) {
+    if (this.state.techs !== prevState.techs)
+      localStorage.setItem('techs', JSON.stringify(this.state.techs));
+  }
+
+  //Funcs
   handleInputChanged = e => {
     this.setState({ newTech: e.target.value });
   };
